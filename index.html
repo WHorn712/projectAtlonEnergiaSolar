@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATHLON ENERGIA SOLAR - Estimativa de Preço</title>
+    <!-- Google Fonts - Poppins para títulos, Open Sans para corpo -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Variáveis CSS para Cores e Fontes */
+        :root {
+            --primary-blue: #1A5A93; /* Azul escuro do logo */
+            --secondary-blue: #2A7FB8; /* Um azul mais claro e vibrante para acentuação e gradientes */
+            --accent-blue: #4A90E2; /* Azul ainda mais claro para efeitos especiais */
+            --text-dark: #333; /* Texto principal */
+            --text-light: #666; /* Texto secundário */
+            --bg-light: #F9F9F9; /* Fundo principal */
+            --white: #FFFFFF;
+            --border-light: #DDD; /* Borda de elementos */
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --gradient-blue: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 50%, var(--accent-blue) 100%);
+            --gradient-blue-hover: linear-gradient(135deg, var(--secondary-blue) 0%, var(--accent-blue) 50%, #5BA3F5 100%);
+
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+        }
+
+        /* Estilos Globais e Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: linear-gradient(135deg, #F0F4F8 0%, #E6F0F6 100%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(5px);
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #e3e3e3;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .container {
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            padding: 40px 50px;
+            max-width: 900px;
+            width: 100%;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-blue);
+        }
+
+        /* Cabeçalho */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header img {
+            max-width: 280px;
+            height: auto;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.1));
+        }
+
+        .header img:hover {
+            transform: scale(1.05) rotate(2deg);
+            filter: drop-shadow(0 8px 25px rgba(26, 90, 147, 0.3));
+        }
+
+        .header img:active {
+            transform: scale(0.98);
+        }
+
+        .header h1 {
+            font-family: var(--font-heading);
+            color: var(--primary-blue);
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Formulário */
+        .form-section {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fbff 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(26, 90, 147, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-section label {
+            display: flex;
+            align-items: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+            font-family: var(--font-heading);
+        }
+
+        .question-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: var(--gradient-blue);
+            color: white;
+            border-radius: 50%;
+            font-size: 1em;
+            font-weight: 700;
+            margin-right: 15px;
+            box-shadow: 0 4px 15px rgba(26, 90, 147, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 15px rgba(26, 90, 147, 0.3); }
+            50% { box-shadow: 0 4px 25px rgba(26, 90, 147, 0.5); }
+            100% { box-shadow: 0 4px 15px rgba(26, 90, 147, 0.3); }
+        }
+
+        .question-icon {
+            margin-left: 10px;
+            color: var(--secondary-blue);
+            font-size: 0.9em;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 1.1em;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fbff 100%);
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 0 4px rgba(42, 127, 184, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Estilo para Radio Buttons como Cards */
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .radio-option {
+            position: relative;
+        }
+
+        .radio-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .radio-option label {
+            display: block;
+            width: 100%;
+            padding: 20px 15px;
+            border: 2px solid var(--border-light);
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 1em;
+            color: var(--text-light);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 500;
+            margin-bottom: 0;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fbff 100%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .radio-option label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .radio-option label:hover::before {
+            left: 100%;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            border-color: var(--primary-blue);
+            color: var(--white);
+            background: var(--gradient-blue);
+            box-shadow: 0 8px 25px rgba(26, 90, 147, 0.4);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .radio-option input[type="radio"]:checked + label::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 0.9em;
+            animation: checkmark 0.5s ease-in-out;
+        }
+
+        @keyframes checkmark {
+            0% { transform: scale(0) rotate(180deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .radio-option label:hover {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px) scale(1.02);
+            background: var(--gradient-blue-hover);
+            color: var(--white);
+        }
+
+        .radio-option input[type="radio"]:focus + label {
+            outline: 3px solid var(--secondary-blue);
+            outline-offset: 3px;
+        }
+
+        /* Botão de Calcular */
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 18px 30px;
+            background: var(--gradient-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 40px;
+            box-shadow: 0 8px 25px rgba(26, 90, 147, 0.3);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button[type="submit"]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(26, 90, 147, 0.4);
+            background: var(--gradient-blue-hover);
+        }
+
+        button[type="submit"]:hover::before {
+            left: 100%;
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 25px rgba(26, 90, 147, 0.3);
+        }
+
+        /* Área de Resultado */
+        #result-area {
+            margin-top: 50px;
+            padding: 35px;
+            border: 3px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        var(--gradient-blue) border-box;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #result-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(145deg, rgba(240, 248, 255, 0.8) 0%, rgba(230, 240, 246, 0.8) 100%);
+            z-index: -1;
+        }
+
+        #result-area.visible {
+            display: block;
+            animation: slideUpFade 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideUpFade {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        #result-area h2 {
+            font-family: var(--font-heading);
+            color: var(--primary-blue);
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        #estimated-price {
+            font-family: var(--font-heading);
+            font-size: 3.5em;
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-bottom: 15px;
+            animation: priceGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes priceGlow {
+            0% { filter: drop-shadow(0 0 10px rgba(26, 90, 147, 0.3)); }
+            100% { filter: drop-shadow(0 0 20px rgba(26, 90, 147, 0.6)); }
+        }
+
+        #result-area p {
+            color: var(--text-light);
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Estilo para o Botão CTA do WhatsApp */
+        .whatsapp-cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #25D366 0%, #1DA851 100%);
+            color: var(--white);
+            padding: 16px 35px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 25px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .whatsapp-cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .whatsapp-cta-button:hover {
+            background: linear-gradient(135deg, #1DA851 0%, #128C3E 100%);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
+        }
+
+        .whatsapp-cta-button:hover::before {
+            left: 100%;
+        }
+
+        .whatsapp-cta-button:active {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-icon {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+
+        .error-message {
+            color: #D32F2F;
+            font-size: 0.95em;
+            margin-top: 8px;
+            margin-bottom: 10px;
+            display: none;
+            padding: 10px;
+            background: rgba(211, 47, 47, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #D32F2F;
+        }
+
+        .error-message.visible {
+            display: block;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 25px;
+                margin: 15px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .header img {
+                max-width: 220px;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+
+            .radio-group {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            #estimated-price {
+                font-size: 2.8em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 1.7em;
+            }
+
+            .form-section label {
+                font-size: 1.1em;
+            }
+
+            .question-number {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9em;
+            }
+
+            button[type="submit"] {
+                font-size: 1.1em;
+                padding: 15px 25px;
+            }
+
+            #estimated-price {
+                font-size: 2.2em;
+            }
+
+            .whatsapp-cta-button {
+                font-size: 1.1em;
+                padding: 14px 30px;
+            }
+        }
+        /* Formatação do input de moeda */
+#bill-amount {
+    font-weight: 600;
+    color: var(--primary-blue);
+    text-align: left;
+    padding-left: 20px;
+}
+
+#bill-amount::placeholder {
+    color: var(--text-light);
+    font-weight: normal;
+}
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <img src="logo.png" alt="Logo ATHLON ENERGIA SOLAR" id="logoImage">
+            <h1>Descubra o Potencial Solar para Você!</h1>
+            <p>Responda algumas perguntas simples e obtenha uma estimativa de investimento para instalar energia solar.</p>
+        </header>
+
+        <form id="price-calculator-form">
+            <div class="form-section">
+                <label for="bill-amount">
+                    <span class="question-number">1</span>
+                    Qual o valor da sua conta de luz atual?
+                    <i class="fas fa-bolt question-icon"></i>
+                </label>
+                <input type="text" id="bill-amount" placeholder="R\$ 0,00" maxlength="15" required>
+                <div id="bill-error" class="error-message">Por favor, insira um valor válido para a conta de luz.</div>
+            </div>
+
+            <div class="form-section">
+                <label>
+                    <span class="question-number">2</span>
+                    Qual o tipo de instalação desejado?
+                    <i class="fas fa-building question-icon"></i>
+                </label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="install-residential" name="installation-type" value="residencial" required>
+                        <label for="install-residential">Residencial</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="install-commercial" name="installation-type" value="comercial">
+                        <label for="install-commercial">Comercial</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="install-industrial" name="installation-type" value="industrial">
+                        <label for="install-industrial">Industrial</label>
+                    </div>
+                </div>
+                <div id="install-type-error" class="error-message">Selecione o tipo de instalação.</div>
+            </div>
+
+            <div class="form-section">
+                <label>
+                    <span class="question-number">3</span>
+                    Qual o tipo de fornecimento elétrico?
+                    <i class="fas fa-plug question-icon"></i>
+                </label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="supply-mono" name="supply-type" value="monofasico" required>
+                        <label for="supply-mono">Monofásico</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="supply-bi" name="supply-type" value="bifasico">
+                        <label for="supply-bi">Bifásico</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="supply-tri" name="supply-type" value="trifasico">
+                        <label for="supply-tri">Trifásico</label>
+                    </div>
+                </div>
+                <div id="supply-type-error" class="error-message">Selecione o tipo de fornecimento.</div>
+            </div>
+
+            <div class="form-section">
+                <label>
+                    <span class="question-number">4</span>
+                    Qual o tipo de telhado?
+                    <i class="fas fa-home question-icon"></i>
+                </label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="roof-tile" name="roof-type" value="telha" required>
+                        <label for="roof-tile">Telha Cerâmica/Concreto</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="roof-brasilit" name="roof-type" value="brasilit">
+                        <label for="roof-brasilit">Brasilit / Fibrocimento</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="roof-aluzinco" name="roof-type" value="aluzinco">
+                        <label for="roof-aluzinco">Metálico / Aluzinco</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="roof-ground" name="roof-type" value="estrutura_chao">
+                        <label for="roof-ground">Estrutura de Chão / Solo</label>
+                    </div>
+                </div>
+                <div id="roof-type-error" class="error-message">Selecione o tipo de telhado.</div>
+            </div>
+
+            <div class="form-section">
+                <label>
+                    <span class="question-number">5</span>
+                    Quantos pisos possui o local de instalação?
+                    <i class="fas fa-layer-group question-icon"></i>
+                </label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="floors-1" name="floor-count" value="1_piso" required>
+                        <label for="floors-1">1 Piso</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="floors-2" name="floor-count" value="2_pisos">
+                        <label for="floors-2">2 Pisos</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="floors-3plus" name="floor-count" value="3_ou_mais_pisos">
+                        <label for="floors-3plus">3 ou mais Pisos</label>
+                    </div>
+                </div>
+                <div id="floor-count-error" class="error-message">Selecione a quantidade de pisos.</div>
+            </div>
+
+            <button type="submit">
+                <i class="fas fa-calculator"></i> Calcular Estimativa
+            </button>
+        </form>
+
+        <div id="result-area">
+            <h2>Sua Estimativa de Investimento:</h2>
+            <div id="estimated-price"></div>
+            <p>O valor apresentado é uma <strong>estimativa</strong> inicial. Para um orçamento preciso e personalizado, <br>entre em contato com nossa equipe ATHLON ENERGIA SOLAR!</p>
+            <a href="https://wa.me/5551998889364?text=Ol%C3%A1%2C%20gostaria%20de%20um%20or%C3%A7amento%20personalizado%20para%20energia%20solar." target="_blank" class="whatsapp-cta-button">
+                <i class="fab fa-whatsapp whatsapp-icon"></i>
+                Fale Conosco no WhatsApp!
+            </a>
+        </div>
+    </div>
+
+    <script>
+            document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('price-calculator-form');
+    const billAmountInput = document.getElementById('bill-amount');
+    const resultArea = document.getElementById('result-area');
+    const estimatedPriceDiv = document.getElementById('estimated-price');
+    const logoImage = document.getElementById('logoImage');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    // Elementos de erro
+    const billError = document.getElementById('bill-error');
+    const installTypeError = document.getElementById('install-type-error');
+    const supplyTypeError = document.getElementById('supply-type-error');
+    const roofTypeError = document.getElementById('roof-type-error');
+    const floorCountError = document.getElementById('floor-count-error');
+
+    // Função para formatar valor como moeda brasileira
+    function formatCurrency(value) {
+        // Remove tudo que não é dígito
+        const numericValue = value.replace(/\D/g, '');
+
+        // Se não há valor, retorna vazio
+        if (!numericValue) return '';
+
+        // Converte para número e divide por 100 para ter centavos
+        const numberValue = parseInt(numericValue) / 100;
+
+        // Formata como moeda brasileira
+        return numberValue.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    // Função para extrair valor numérico da string formatada
+    function extractNumericValue(formattedValue) {
+        // Remove R\$, espaços, pontos e substitui vírgula por ponto
+        const numericString = formattedValue
+            .replace(/R\$\s?/g, '')
+            .replace(/\./g, '')
+            .replace(',', '.');
+
+        return parseFloat(numericString) || 0;
+    }
+
+    // Formatação automática do input de moeda
+    billAmountInput.addEventListener('input', function(e) {
+        const cursorPosition = e.target.selectionStart;
+        const oldValue = e.target.value;
+        const oldLength = oldValue.length;
+
+        // Formata o valor
+        const formattedValue = formatCurrency(e.target.value);
+        e.target.value = formattedValue;
+
+        // Ajusta a posição do cursor
+        const newLength = formattedValue.length;
+        const lengthDifference = newLength - oldLength;
+        const newCursorPosition = cursorPosition + lengthDifference;
+
+        // Define a nova posição do cursor
+        setTimeout(() => {
+            e.target.setSelectionRange(newCursorPosition, newCursorPosition);
+        }, 0);
+    });
+
+    // Formatação quando o campo perde o foco
+    billAmountInput.addEventListener('blur', function(e) {
+        if (e.target.value && !e.target.value.startsWith('R\$')) {
+            e.target.value = formatCurrency(e.target.value);
+        }
+    });
+
+    // Permite apenas números, vírgula e ponto
+    billAmountInput.addEventListener('keypress', function(e) {
+        const allowedChars = /[0-9,\.]/;
+        const inputChar = String.fromCharCode(e.which);
+
+        if (!allowedChars.test(inputChar) && e.which !== 8 && e.which !== 0) {
+            e.preventDefault();
+        }
+    });
+
+    // Função para mostrar loading
+    function showLoading() {
+        loadingOverlay.classList.add('active');
+    }
+
+    // Função para esconder loading
+    function hideLoading() {
+        loadingOverlay.classList.remove('active');
+    }
+
+    // Event listener para clique na logo
+    logoImage.addEventListener('click', () => {
+        showLoading();
+        setTimeout(() => {
+            hideLoading();
+            window.location.reload();
+        }, 1500);
+    });
+
+    // Função para mostrar mensagem de erro
+    function showError(element, message) {
+        element.textContent = message;
+        element.classList.add('visible');
+    }
+
+    // Função para esconder mensagem de erro
+    function hideError(element) {
+        element.classList.remove('visible');
+        element.textContent = '';
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Esconde todas as mensagens de erro antes da validação
+        hideError(billError);
+        hideError(installTypeError);
+        hideError(supplyTypeError);
+        hideError(roofTypeError);
+        hideError(floorCountError);
+
+        let isValid = true;
+
+        // 1. Validação da Conta de Luz (agora com formatação de moeda)
+        const billAmountValue = billAmountInput.value;
+        const billAmount = extractNumericValue(billAmountValue);
+
+        if (!billAmountValue || billAmount <= 0) {
+            showError(billError, 'Por favor, insira um valor positivo para a conta de luz.');
+            isValid = false;
+        }
+
+        // 2. Validação Tipo de Instalação
+        const installationType = document.querySelector('input[name="installation-type"]:checked')?.value;
+        if (!installationType) {
+            showError(installTypeError, 'Selecione o tipo de instalação.');
+            isValid = false;
+        }
+
+        // 3. Validação Tipo de Fornecimento
+        const supplyType = document.querySelector('input[name="supply-type"]:checked')?.value;
+        if (!supplyType) {
+            showError(supplyTypeError, 'Selecione o tipo de fornecimento.');
+            isValid = false;
+        }
+
+        // 4. Validação Tipo de Telhado
+        const roofType = document.querySelector('input[name="roof-type"]:checked')?.value;
+        if (!roofType) {
+            showError(roofTypeError, 'Selecione o tipo de telhado.');
+            isValid = false;
+        }
+
+        // 5. Validação Contagem de Pisos
+        const floorCount = document.querySelector('input[name="floor-count"]:checked')?.value;
+        if (!floorCount) {
+            showError(floorCountError, 'Selecione a quantidade de pisos.');
+            isValid = false;
+        }
+
+        if (!isValid) {
+            resultArea.classList.remove('visible');
+            return;
+        }
+
+        // Mostra loading durante o "cálculo"
+        showLoading();
+
+        setTimeout(() => {
+            hideLoading();
+
+            // Valor fixo em R\$ 0,00
+            const estimatedPrice = 0;
+
+            // Formata como moeda BRL
+            const formattedPrice = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(estimatedPrice);
+
+            estimatedPriceDiv.textContent = formattedPrice;
+            resultArea.classList.add('visible');
+
+            // Scroll para o resultado
+            setTimeout(() => {
+                resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }, 2000);
+    });
+});
+    </script>
+</body>
+</html>
